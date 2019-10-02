@@ -2,14 +2,17 @@
 title: "notebook2"
 output:
   html_document:
-    df_print: paged
+    highlight: pygments
+    toc: true
+    toc_float: true
+    toc_depth: 3
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# 2. Estructuras de datos sencillas en R
+# Estructuras de datos en R
 
 Ya vimos lo tipos de datos básicos, ahora veremos las estructuras en las que los almacenamos.
 
@@ -127,6 +130,7 @@ En los ejemplos anteriores hemos definido un vector en el que todos sus elemento
 x <- c(1,2,"a")
 y <- c(FALSE, 1)
 z <- c("a",T)
+
 ```
 
 
@@ -137,6 +141,12 @@ class(y)
 
 class(z)
 
+```
+
+```{r}
+x
+y
+z
 ```
 
 
@@ -154,7 +164,7 @@ as.character(x)
 ```
 
 
-### Acceder a un elemento de un objeto.
+### Acceder a un elemento de un vector.
 Para seleccionar/acceder a un elemento de un vectorse suelen emplear: []
 
 Vamos a crear el objeto x que será un vector de cuatro componentes formado por los cuatro primeros números pares. Así:
@@ -163,6 +173,7 @@ Vamos a crear el objeto x que será un vector de cuatro componentes formado por 
 x <- c(2,4,6,8)
 ```
 
+#### Quitar un elemento de un vector
 
 ```{r}
 z[6]
@@ -171,7 +182,9 @@ z[-2]
 length(z)
 ```
 
-### Listar y borrar objetos
+
+
+#### Listar y borrar objetos
 
 ```{r}
 ls()
@@ -191,3 +204,231 @@ rm(z)
 rm(list=ls()) # o también rm(list=objects())
 ls()
 ```
+
+### Algunas funciones útiles para crear vectores
+- secuencia
+```{r}
+?seq()
+```
+
+```{r}
+seq(1, 100)
+```
+
+```{r}
+seq(from = 0,to = 100, by =10)
+```
+
+otra notacion:
+
+```{r}
+1:100
+```
+
+- repeticion
+```{r}
+rep("y", 25)
+```
+
+Ejemplo 
+
+
+```{r}
+rep(seq(1, 5), 2)
+```
+
+- sort
+
+```{r}
+sort(rep(seq(1, 5), 2))
+```
+
+```{r}
+sort(rep(2015:2019, 7))
+```
+
+```{r}
+rnorm(10, 1000, 400)
+```
+
+Ejercicios:
+
+1. Cree un vector de provincias de Costa Rica:
+```{r eval=FALSE, include=FALSE}
+provincias <-
+```
+
+1.1 Haga una repeticion de 5
+
+```{r eval=FALSE, include=FALSE }
+provincias_rep <-
+```
+
+
+
+2. Cree un vector de año desde el 2015 hasta el 2019
+```{r eval=FALSE, include=FALSE}
+anos <- 
+
+```
+2.2 Haga una repeticion de 7
+
+```{r eval=FALSE, include=FALSE }
+anios_rep <-
+```
+
+2.3 Ordenelo
+```{r eval=FALSE, include=FALSE}
+anos_ord <- 
+```
+
+
+## Listas
+
+A diferencia de los vectores o matrices, las listas pueden contener elementos/componentes de distinto tipo. Observemos esta lista que tiene 5 componentes (pueden ser matrices, vectores, dataframes,..).
+
+```{r}
+x <- list(c(1,2,3,4), "Curso", F, 1+2i, 3L)
+x
+```
+
+
+Utilizamos el doble corchete [[]] para acceder al contenido concreto de una lista.
+
+```{r}
+x[[3]]  # accedemos al tercer componente de la lista
+
+```
+
+```{r}
+x[[1]][2] # accedemos al segundo elemento del primer componente de la lista
+
+```
+
+Vamos a crear otra lista para practicar.
+```{r}
+y <- list( Titulacion = c("Economía", "Sociología", "Derecho"), Edad =c(25,26,27))
+
+y
+```
+
+Fijémonos en la diferencia de presentación de las listas x e y. Como en la lista y hemos nombrado los componentes, estos aparecen al ejecutar el objeto precedidos del símbolo $. Ahora también podemos acceder a un componente de la lista por su nombre.
+
+```{r}
+y$Titulacion
+## [1] "Economía"   "Sociología" "Derecho"
+y[[1]]
+## [1] "Economía"   "Sociología" "Derecho"
+y[1]
+## $Titulacion
+## [1] "Economía"   "Sociología" "Derecho"
+y[[1]][1]
+## [1] "Economía"
+y$Titulacion[1]
+## [1] "Economía"
+
+```
+
+
+Evidentemente, también podemos realizar operaciones con listas.
+
+```{r}
+y[[2]]*3
+```
+
+
+## Data Frames.
+
+Los data frame se usan para almacenar datos en forma de tablas (filas / columnas), como estamos habituados en Excel, Spss, etc.
+
+Los data frame pueden almacenar objetos/datos de distinto tipo: numéricos, carácter, … En las matrices todos los elementos tenían que ser enteros o numéricos.
+
+Los data frame pueden entenderse como un tipo especial de lista donde cada elemento de la lista tiene que tener la misma longitud. Cada elemento de la lista sería una columna y la longitud de cada elemento de la lista serían las filas.
+
+Aunque normalmente los data frame los creamos al cargar/leer una base de datos, vamos crear una data frame para ver su estructura.
+
+
+
+```{r}
+x <- data.frame(Titulacion = c("Economía", "ADE", "Sociología", "Magisterio"), Edad = c(25, 27, 25, 24))
+x
+```
+
+
+```{r}
+class(x)
+```
+
+¿Cuál es la dimensión del objeto x (que es una data frame)?
+```{r}
+nrow(x)
+ncol(x)
+```
+
+
+```{r}
+str(x)
+```
+
+
+```{r}
+
+x$Titulacion
+
+```
+
+
+
+#### Ver el contenido de un data frame: head y tail
+
+Normalmente los data frames con los que trabajamos tienen muchas filas (individuos) y muchas columnas (variables). Si directamente escribimos el nombre del objeto (data frame) para ver su contenido lo que ocurrirá es que veremos poca cosa, apenas si observaremos como R nos lista todo el contenido de forma continua. Para entender lo que queremos decir, vamos a ver el siguiente ejemplo de precios acciones de algunas empresas de tecnologóa des de 2015 hasta las fecha.
+
+```{r}
+library(quantmod)
+library(zoo)
+getSymbols(c("MSFT", "NVDA", "IBM", "AAPL", "FB", "AMZN"),from = " 2015-01-01",src = 'yahoo')
+
+# Assign to dataframe
+# Get adjusted prices
+prices.data <- merge.zoo(MSFT[,6], NVDA[,6], IBM[,6], AAPL[,6], FB[,6], AMZN[,6])
+```
+
+```{r}
+head(prices.data)
+```
+
+```{r}
+tail(prices.data)
+```
+
+```{r}
+nrow(prices.data)
+```
+
+```{r}
+colnames(prices.data)
+```
+
+```{r}
+str(prices.data)
+```
+
+
+```{r}
+summary(prices.data)
+```
+
+```{r}
+filtro <- prices.data$MSFT.Adjusted<prices.data$AAPL.Adjusted
+```
+
+```{r}
+head(prices.data[filtro,])
+```
+
+### Hagamos un data frame desde cero 
+
+```{r}
+c(rep(2015, 2), rep(2016, 5), rep(2017, 5))
+```
+
