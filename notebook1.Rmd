@@ -1,32 +1,57 @@
 ---
 title: "Notebook1"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
+
+```{r}
+library(tidyverse)
+```
 
 # 1. Lo básico
 
 Vamos a realizar paso a paso este sencillo ejercicio para introducir algunos conceptos importantes.
 
+R puede funcionar como una calculadora 
 ```{r}
 3+4
+```
 
 
+```{r}
 log(10)
+```
 
+Se utiliza el simbolo `<-` para asignar un valor a una variable que se almacenará en la memoria. 
+
+```{r}
 x <- 3+4  
+```
 
+*Tip*: el comando de teclado `Alt + -` genera el `<-` con espacios de una vez. Probalo
 
-y = 2+6
+```{r}
+y <-  2+6
 y
+```
 
+Un vector sencillo que nos alamacena en una lista las dos variables anteriores
+```{r}
 z <- c(x,y)
 z
+```
 
+
+R contiene funciones que nos permitirán hacer cálculos muy complejos de forma sencilla.
+```{r}
 mean(z)
 
 w <- mean(z)
 w
+``` 
 
+```{r}
 round(w, digits=0)
 
 ```
@@ -34,19 +59,18 @@ round(w, digits=0)
 
 ##  Instalando librerias
 
-Podemos instalar librerias desde:
+R funciona con librerias o paquetes, que por lo general se encuentran en el [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/), el cual es el repositorio de paquetes revisados por un comite científico
 
-[cran](https://cran.r-project.org/)
 
 ```{r eval=FALSE, include=T}
-install.packages("ggplot")
+install.packages("ggplot2")
 
 ```
 
-[github](https://github.com)
+O muchos paquetes en su versión de desarrollo [github](https://github.com). Para esto se debe tener instalado el paquete `devtools`. 
 
 ```{r eval=FALSE, include=T}
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("tidyverse/dplyr")
 ```
 
@@ -60,202 +84,289 @@ library(tidyverse)
 
 
 ## Ubicarnos en donde estamos
-```{r}
+Este comando nos permitirá saber la dirección de nuestro directorio
+```{r }
 getwd()
 ```
 
-```{r}
+Con este podemos establecer una ruta específica para el directorio
+```{r eval=FALSE, include=T}
 setwd("C:/ruta del directorio de trabajo")
 ```
 
-Esto por lo general es poco utilizado, trabajaremos con Proyectos de Rstudio, lo cuál nos ayudadrá mucho a ordenar nuestro trabajo.
+Los archivos de Scripts y los notebooks utilizan la ruta de directorio como base para llamar archivos de datos, imagenes, otros archivos de código, etc. Esto lo iremos viendo más adelante
+
+Estos dos comandos por lo general son poco utilizados, trabajaremos con Proyectos de Rstudio, lo cuál nos ayudadrá mucho a ordenar nuestro trabajo.
 
 ## 3. Ayuda en R
-```{r}
+Los dos siguientes códigos nos permitirán abrir las documentaciones de los paquetes, específicamente en el lugar donde se encuentras las definiciones, parámetros y funcionalidades de las funciones sobre la cuál lo apliquemos.
+
+```{r eval=FALSE, include=T}
 help(mean)
 ```
 
-```{r}
+```{r eval=FALSE, include=T}
 ?mean
 ```
 
-```{r}
+Este sigueinte nos permitirá ver el código fuente de algunas funciones
+
+```{r eval=FALSE, include=T}
 replace
 ```
 
+Cada uno de los paquetes  tiene documentaciones en línea que contiene todas las funciones, como usarlas y hasta ejemplos de uso. Dependiendo de la popularidad del paquete muchas se podrán encontra como páginas web interactivas en las que podremos reporducir ejemplos fácilmente. Por ejemplo el paquete [ggplot2](https://ggplot2.tidyverse.org/) 
+
+No obstante lo anterior si alguna vez te trabás y no podés avanzar, googlear la preguntá te ayudará enormemente. 
+
+Páginas como [stackoverflow](https://stackoverflow.com/questions/39148759/remove-accents-from-a-dataframe-column-in-r) contienen respuestas a casi cualquier problema que uno pueda tener.
 
 
-# 2. Objetos en R
+#### Finalicemos esta primera lección entendiendo cuáles son los tipos de datos más comunes en R (y en cualquier lenguaje de programación)
 
-Básicamente R trabaja con los siguientes tipos de objetos:
+### Enteros
 
-- VECTORES
-- MATRICES y ARRAYS (variables indexadas)
-- LISTAS
-- FACTORES
-- DATA FRAME
-- FUNCIONES
-
-## Vectores
-
-Empezaremos viendo los objetos más sencillos, los vectores. Poco a poco iremos viendo el resto de objetos.
-
-La mayoría de las operaciones (+, -, *, /) y funciones en R están definidas con carácter vectorial. ¿Qué significa esto? Que R opera componente a componente.
-
-Antes de entender el concepto “caracter vectorial”, vamos a ver cómo se define/crea un vector.
-
-Para crear un vector se utiliza la función c() (c de concatenate). Por ejemplo:
-
+simples números enteros
 ```{r}
-x <- c(1,2,3,4)
-x                  # x es un vector que tiene cuatro componentes
+1 
 ```
 
 ```{r}
-y <- c(5,6,7,8)
+x <- as.integer(2)
+
+print(x) 
+
+print(typeof(x))
+```
+
+la funcion `typeof` nos devuelve el tipo de dato
+### Punto flotante o double
+
+```{r}
+pi 
+
+3232.356736634748498439843
+```
+
+
+```{r}
+typeof(pi)
+```
+
+
+### con estas dos estructuras podremos efectuar operaciones matemáticas tales como 
+
+
+```{r echo=FALSE, results='asis'}
+tabla = data.frame(operacion = c("suma", "resta", "multiplicacion", "division", "modulo"), operador = c("+", "-", "*", "/", "%%" ))
+xtable::xtable(tabla)
+
+```
+
+```{r}
+2+pi
+```
+
+```{r}
+2/5
+```
+
+
+```{r}
+5%%5
+```
+
+
+R sigue el orden normal de estas operaciones, el cuál como siempre podemos alterar como siempre usando paréntesis
+```{r}
+2*5+1
+```
+
+```{r}
+2*(5+1)
+```
+
+# Characteres o Strings
+
+- son hileras de caracteres **alfa-numéricos**
+- van rodeados por comillas simplre o doble comilla 
+```{r}
+
+x <- "maria"
+y <- "juan"
+z <- "ya se van"
+w <- "2"
+
+
+x
 y
-```
-
-
-Volvemos sobre el tema del carácter vectorial, es decir, se opera componente a componente. Pensemos, si
-
-```{r}
-z <- x + y
-```
-
-¿Qué resultado espero obtener para z?
-
-Vamos a ver si lo entendemos de verdad. Supongamos que x e y son los siguientes vectores:
-
-```{r}
-
-x <- c(1,2,3,4)
-y <- c(1,2,3)
-
-```
-
-
-¿Qué longitud tienen los vectores x e y? Aquí la respuesta está clara, pero en aplicaciones reales utilizaríamos la función length()
-```{r}
-length(x)                # esta función es muy útil, conviene recordarla.
-
-length(y)
-
-```
-
-Los vectores no tienen la misma longitud, entonces.. ¿Cuál será el resultado de z <- x + y?
-
-```{r}
-z <- x+y
-
 z
-
-```
-
-
-R nos da un mensaje de aviso (warning), no es lo mismo que un error. Nos avisa que hay algo que no cuadra pero…realiza la operación que nosotros queremos.
-
-Una cuestión muy importante que siempre tenemos que tener en cuenta cuando trabajamos con vectores es que en un vector *sólo podemos concatenar elementos del mismo tipo.* ¿Qué tipos/clases de elementos (o datos) tenemos en R?
-
-+ Carácter
-+ Numéricos
-+ Enteros
-+ Complejos
-+ Lógicos
-
-Algunos ejemplos
-
-```{r}
-x <- c(1,2,3,4)    # creamos el vector x
-class(x)  
-```
-
-
-```{r}
-y <- c("a","b")
-class(y)
+w
 ```
 
 ```{r}
-w <- c(TRUE, F)    # en general, puede escribirse TRUE/FALSE o T/F
-class(w)
+typeof(x)
+typeof(y)
 ```
 
 
-```{r}
-t <- c(1+2i, 1+3i)
-class(t)
-```
-
-
-En los ejemplos anteriores hemos definido un vector en el que todos sus elementos eran del mismo tipo. Pero….¿qué pasa si tenemos los siguientes vectores?
+No los podemos sumar o restar, pero sí unirlos o alterarlos.
+La función paste nos permite unir variables de string
 
 ```{r}
-x <- c(1,2,"a")
-y <- c(FALSE, 1)
-z <- c("a",T)
-```
-
-
-```{r}
-class(x)
-
-class(y)
-
-class(z)
+c <- paste(x, y, z)
+c
 
 ```
 
+Esta función paste une los caracterés por defualt con un `" "`, es decir con espacio en blanco, pero podemos cambiar esto con el argumento `sep`
+```{r}
+c <- paste(x, y, z, sep = "*")
+c
+```
 
-En ocasiones somos nosotros los que estamos interesados en forzar que todos los elementos del vector sean del mismo tipo (esto es la explicit coercion). Para ello utilizamos las funciones `as.numeric()` , `as.character()`, `as.logical()` … Si el resultado no tiene sentido R producirá un mensaje de error o warning. Un ejemplo:
+**ojo que*** `ya se van` es una variable (la variable z definida arriba), por lo que el `*` va entre `maria` y `juan` y entre `juan` y `ya se van`
 
+### Este es un buen momento para introducir un paquete muy útil ![stringR](imagenes/stringR.png)
+
+Primero lo instalamos (como ya instalamos `tidiverse` ya no es necesario instalarlo)
+```{reval=FALSE, include=T}
+
+install.packages("stringr")
+
+```
+
+lo importamos (igualmente esto no es necesario al estar en `tidyverse`)
+```{r}
+library("stringr")
+```
+
+Por ahora solo veamos algunas cosas básicas que podemos hacer. Definamos un string, por ejemplo un correo
 ```{r}
 
-x <- c(1,2,"a")
+x <- "u sua ri o @ gma il. co m"
 x
 
-as.numeric(x)
+```
 
+Algo anda mal acá, usemos la función `str_replace_all`, para reemplazar todos los espacios por strings vacíos ("")
+
+```{r}
+str_replace_all(string = x, pattern = " ", replacement = "")
+
+```
+
+Muchos mejor
+
+
+podemos ver si un string contiene alguna letra o patrón que ocupemos con `str_detect`
+
+```{r}
+x <- "ministerio de trabajo y seguridad social"
+
+str_detect(x, "social")
+
+```
+
+Esto no devuelve un `TRUE`, este es otro nuevo tipo de dato que veremos a continuación
+
+# Datos Boleanos
+Son datos que nos permiten realizar operaciones lógicas y confirmar si una afirmación es falsa o verdadera.
+
+los básicos con `TRUE` y `FALSE`
+
+Para operarlos utilizamos los operadores lógicos:
+- `&`: y
+-`|`: ó
+- `==`: igual
+- `!=`: distinto
+
+siguen los coceptos de lógica comunes: Falso y falso es falso, falso y verdadero es falso, falso o falso es falso, falso o verdadero es verdader. Veamos un ejemplo
+
+```{r}
+x <- 2
+y <- 3
+z <- 3
+
+x == y #esto es falso
+
+z == y #verdadero
+
+(x == y) & (z == y ) #es cierto que x igual y y que z igual y???? (al mismo tiempo) pués no
+
+(x == y) | (z == y ) #es cierto que x igual ó y que z igual y??? pués sí
+
+
+
+
+```
+
+
+lo anterior también lo podemos escribir así
+
+```{r}
+x <- 2
+y <- 3
+z <- 3
+
+a1 <- x == y #esto es falso
+
+a2 <- z == y #verdadero
+
+a1 & a2 #es cierto que x igual y y que z igual y???? (al mismo tiempo) pués no
+
+a1 | a2 
+```
+
+Usemos ahora los operadores `>` (mayor que) y `<` (menor que)
+
+```{r}
+2 >= 2
+
+x <- 3
+y <- 5
+
+x > y
+x < y
+```
+
+
+### Veamos un úlitmo concepto: Casteo
+
+Esto se refiere a transforma un tipo de dato en otro, a veces no es posibles y cuando lo es podemos tener comportamiento inesperados o esperados.
+
+- Pasemos un double a un entero
+```{r}
+x <-  2.34
+x
+
+as.integer(x)
+
+```
+
+- Double a string
+```{r}
 as.character(x)
+```
+
+boolenano a entero
+```{r}
+as.integer(TRUE)
 
 ```
 
-
-### Acceder a un elemento de un objeto.
-Para seleccionar/acceder a un elemento de un vectorse suelen emplear: []
-
-Vamos a crear el objeto x que será un vector de cuatro componentes formado por los cuatro primeros números pares. Así:
+character a entero
 
 ```{r}
-x <- c(2,4,6,8)
+y <- "3a"
+as.integer(y)
 ```
-
+**....pero**
 
 ```{r}
-z[6]
-z # si primero z[6]<-12
-z[-2]
-length(z)
+y <- "3a"
+as.integer(y)
 ```
+otbenemos un Non applicable o non available, ya que no es posible transforma el "a"
 
-### Listar y borrar objetos
-
-```{r}
-ls()
-```
-
-```{r}
-objects()
-```
-
-```{r}
-rm(z)
-
-
-```
-
-```{r}
-rm(list=ls()) # o también rm(list=objects())
-ls()
-```
 

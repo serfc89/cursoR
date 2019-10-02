@@ -1,0 +1,193 @@
+---
+title: "notebook2"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 2. Estructuras de datos sencillas en R
+
+Ya vimos lo tipos de datos básicos, ahora veremos las estructuras en las que los almacenamos.
+
+Básicamente R trabaja con los siguientes tipos de objetos:
+
+- VECTORES
+- MATRICES y ARRAYS (variables indexadas)
+- LISTAS
+- FACTORES
+- DATA FRAME
+
+
+Los veremos en un orden distinto a este, y no todos por ahora:
+
+- VECTORES
+- MATRICES
+- LISTAS
+- DATAFRAMES
+
+## Vectores
+
+Empezaremos viendo los objetos más sencillos, los vectores. Poco a poco iremos viendo el resto de objetos. **Son listados de datos del mismo tipo**
+
+La mayoría de las operaciones (+, -, *, /) y funciones en R están definidas con carácter vectorial. ¿Qué significa esto? Que R opera componente a componente.
+
+Antes de entender el concepto “caracter vectorial”, vamos a ver cómo se define/crea un vector.
+
+Para crear un vector se utiliza la función c() (c de concatenate). Por ejemplo:
+
+```{r}
+x <- c(1,2,3,4)
+x                  # x es un vector que tiene cuatro componentes
+```
+
+```{r}
+y <- c(5,6,7,8)
+y
+```
+
+
+Volvemos sobre el tema del carácter vectorial, es decir, se opera componente a componente. Pensemos, si
+
+```{r}
+z <- x + y
+```
+
+¿Qué resultado espero obtener para z?
+
+Vamos a ver si lo entendemos de verdad. Supongamos que x e y son los siguientes vectores:
+
+```{r}
+
+x <- c(1,2,3,4)
+y <- c(1,2,3)
+
+```
+
+
+¿Qué longitud tienen los vectores x e y? Aquí la respuesta está clara, pero en aplicaciones reales utilizaríamos la función length()
+```{r}
+length(x)                # esta función es muy útil, conviene recordarla.
+
+length(y)
+
+```
+
+Los vectores no tienen la misma longitud, entonces.. ¿Cuál será el resultado de z <- x + y?
+
+```{r}
+z <- x+y
+
+z
+
+```
+
+
+R nos da un mensaje de aviso (warning), no es lo mismo que un error. Nos avisa que hay algo que no cuadra pero…realiza la operación que nosotros queremos.
+
+Una cuestión muy importante que siempre tenemos que tener en cuenta cuando trabajamos con vectores es que en un vector *sólo podemos concatenar elementos del mismo tipo.* ¿Qué tipos/clases de elementos (o datos) tenemos en R?
+
++ Carácter
++ Numéricos
++ Enteros
++ Complejos
++ Lógicos
+
+Algunos ejemplos
+
+```{r}
+x <- c(1,2,3,4)    # creamos el vector x
+class(x)  
+```
+
+
+```{r}
+y <- c("a","b")
+class(y)
+```
+
+```{r}
+w <- c(TRUE, F)    # en general, puede escribirse TRUE/FALSE o T/F
+class(w)
+```
+
+
+```{r}
+t <- c(1+2i, 1+3i)
+class(t)
+```
+
+
+En los ejemplos anteriores hemos definido un vector en el que todos sus elementos eran del mismo tipo. Pero….¿qué pasa si tenemos los siguientes vectores?
+
+```{r}
+x <- c(1,2,"a")
+y <- c(FALSE, 1)
+z <- c("a",T)
+```
+
+
+```{r}
+class(x)
+
+class(y)
+
+class(z)
+
+```
+
+
+En ocasiones somos nosotros los que estamos interesados en forzar que todos los elementos del vector sean del mismo tipo (esto es la explicit coercion). Para ello utilizamos las funciones `as.numeric()` , `as.character()`, `as.logical()` … Si el resultado no tiene sentido R producirá un mensaje de error o warning. Un ejemplo:
+
+```{r}
+
+x <- c(1,2,"a")
+x
+
+as.numeric(x)
+
+as.character(x)
+
+```
+
+
+### Acceder a un elemento de un objeto.
+Para seleccionar/acceder a un elemento de un vectorse suelen emplear: []
+
+Vamos a crear el objeto x que será un vector de cuatro componentes formado por los cuatro primeros números pares. Así:
+
+```{r}
+x <- c(2,4,6,8)
+```
+
+
+```{r}
+z[6]
+z # si primero z[6]<-12
+z[-2]
+length(z)
+```
+
+### Listar y borrar objetos
+
+```{r}
+ls()
+```
+
+```{r}
+objects()
+```
+
+```{r}
+rm(z)
+
+
+```
+
+```{r}
+rm(list=ls()) # o también rm(list=objects())
+ls()
+```
