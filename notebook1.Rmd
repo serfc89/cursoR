@@ -3,9 +3,15 @@ title: "Notebook1"
 output:
   html_document:
     df_print: paged
+    toc: true
+    toc_float: true
 ---
 
-```{r}
+<br><br>
+
+
+
+```{r include=FALSE}
 library(tidyverse)
 ```
 
@@ -334,6 +340,8 @@ x < y
 ### Veamos un úlitmo concepto: Casteo
 
 Esto se refiere a transforma un tipo de dato en otro, a veces no es posibles y cuando lo es podemos tener comportamiento inesperados o esperados.
+
+<center><img src = "imagenes/casteo.png"></center>
 
 - Pasemos un double a un entero
 ```{r}
